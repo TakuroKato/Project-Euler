@@ -1,28 +1,32 @@
 # -*- coding:utf-8 -*-
 import sys
+import math
+from tqdm import tqdm
 
 def mktriangle(k):
-    tri = [0]
+    tri = []
     sum = 0
-    for i in range(k):
+    for i in range(1,k):
         sum += i
         tri.append(sum)
     return tri
 
+def getNumberOfFactor(n):
+    count = 0
+    for i in range(1, int(math.sqrt(n) + 1e-9)+1):
+        if n % i == 0:
+            count += 1
+            if n != i**2:
+                count += 1
+    return count
 
-def mkdiv(M):
-    arr = [0]*M
-    for i in range(1,M):
-        for j in range(1,M):
-            if j % i == 0:
-                arr[j] += 1
-    return arr
+M = int(input())
+t = mktriangle(M)
 
-
-M = 100000
-a = mkdiv(M)
-t = mktriangle(100)
-
-for i in range(len(a)):
-    if a[i] >= 500:
-        print(i)
+x = []
+for i in tqdm(range(len(t))):
+    x.append(getNumberOfFactor(t[i]))
+    if(x[-1] >= 500):
+        print(t[i])
+print(max(x))
+print(getNumberOfFactor(76576500))
